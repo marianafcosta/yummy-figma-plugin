@@ -21,6 +21,15 @@ export function getDepthName(name: string) {
     .reduce((acc: string, cur: string) => (acc += `-${cur}`), '')
     .slice(1);
 }
+
+export function convertKebabToPascal(key: string) {
+  return key.split("-").map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`).join("")
+}
+
+export function convertKebabToCamel(key: string) {
+  return key.split("-").map((word, currWord) => currWord !== 0 ? `${word.charAt(0).toUpperCase()}${word.slice(1)}` : word).join("")
+}
+
 export function replaceToStyleCode(code: string) {
   return code.replace(/"/g, '').replace(/,\n/g, ';\n').replace('\n}', ';\n}');
 }

@@ -1,5 +1,5 @@
 import { TextStyling } from './class';
-import { checkDuplicatedName, getDepthName, replaceToStyleCode } from './utils';
+import { checkDuplicatedName, convertKebabToPascal, getDepthName, replaceToStyleCode } from './utils';
 const textStyleMapper = {
   textDecoration: {
     ['UNDERLLINE']: 'underline',
@@ -31,39 +31,42 @@ export function parseTextStyle(arr: TextStyle[], mode: string) {
 
   arr.forEach((textStyle) => {
     let style: { [key: string]: any } = {};
-    style['font-size'] = `${textStyle.fontSize}px`;
+    style.fontSize = `${textStyle.fontSize}px`;
     if (textStyle.textDecoration !== 'NONE')
-      style['text-decoration'] =
+      style.textDecoration =
         textStyleMapper['textDecoration'][textStyle.textDecoration];
-    style['font-family'] = textStyle.fontName.family;
+    style.fontFamily = textStyle.fontName.family;
     textStyle.fontName.style.split(' ').forEach((st: string) => {
       if (st === 'Italic') {
-        style['font-style'] = 'italic';
+        style.fontStyle = 'italic';
       } else {
         const mappedWeight = textStyleMapper['fontStyle'][st];
-        if (mappedWeight) style['font-weight'] = mappedWeight;
+        if (mappedWeight) style.fontWeight = mappedWeight;
       }
     });
-    style['letter-spacing'] =
+    style.letterSpacing =
       textStyle.letterSpacing.unit === 'PIXELS'
         ? `${textStyle.letterSpacing.value}px`
         : `${textStyle.letterSpacing.value / 100}em`;
 
     if (textStyle.lineHeight.unit !== 'AUTO') {
-      style['line-height'] =
+      style.lineHeight =
         textStyle.letterSpacing.unit === 'PIXELS'
           ? `${textStyle.letterSpacing.value}px`
           : `${textStyle.letterSpacing.value}px`;
     }
 
     if (textStyle.paragraphIndent != 0)
-      style['text-indent'] = `${textStyle.paragraphIndent}px`;
+      style.textIndent = `${textStyle.paragraphIndent}px`;
     if (textStyle.textCase !== 'ORIGINAL')
-      style['text-transform'] = textStyleMapper['textCase'][textStyle.textCase];
+      style.textTransform = textStyleMapper['textCase'][textStyle.textCase];
+
+    // TODO: Get the color for the text style. If the document has a string with that text style, use the color of that text node. 
 
     const originKey = getDepthName(textStyle.name);
     const key = checkDuplicatedName(originKey, codeObj, dupCnt);
-    codeObj[key] = style;
+    const pascalCaseKey = convertKebabToPascal(key);
+    codeObj[pascalCaseKey] = style;
   });
 
   if (mode === 'css') {
@@ -85,6 +88,6 @@ export function parseTextStyle(arr: TextStyle[], mode: string) {
   }
 
   return arr.length
-    ? `//text style \n ${code}\n`
+    ? `//text style \nexport const textStyles = StyleSheet.create(\n${code}\n)`
     : `//no assigned global text code\n`;
 }
