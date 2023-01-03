@@ -23,6 +23,41 @@ const textStyleMapper = {
   },
 };
 
+function processTextStyle(textStyle: TextStyle) {
+  let style: { [key: string]: any } = {};
+  style.fontSize = `${textStyle.fontSize}px`;
+  if (textStyle.textDecoration !== 'NONE')
+    style.textDecoration =
+      textStyleMapper['textDecoration'][textStyle.textDecoration];
+  style.fontFamily = textStyle.fontName.family;
+  textStyle.fontName.style.split(' ').forEach((st: string) => {
+    if (st === 'Italic') {
+      style.fontStyle = 'italic';
+    } else {
+      const mappedWeight = textStyleMapper['fontStyle'][st];
+      if (mappedWeight) style.fontWeight = mappedWeight;
+    }
+  });
+  style.letterSpacing =
+    textStyle.letterSpacing.unit === 'PIXELS'
+      ? `${textStyle.letterSpacing.value}px`
+      : `${textStyle.letterSpacing.value / 100}em`;
+
+  if (textStyle.lineHeight.unit !== 'AUTO') {
+    style.lineHeight =
+      textStyle.letterSpacing.unit === 'PIXELS'
+        ? `${textStyle.letterSpacing.value}px`
+        : `${textStyle.letterSpacing.value}px`;
+  }
+
+  if (textStyle.paragraphIndent != 0)
+    style.textIndent = `${textStyle.paragraphIndent}px`;
+  if (textStyle.textCase !== 'ORIGINAL')
+    style.textTransform = textStyleMapper['textCase'][textStyle.textCase];
+
+  return style
+}
+
 // parse
 export function parseTextStyle(arr: TextStyle[], mode: string) {
   let code = '';
@@ -30,43 +65,10 @@ export function parseTextStyle(arr: TextStyle[], mode: string) {
   let dupCnt = {} as { [key: string]: number };
 
   arr.forEach((textStyle) => {
-    let style: { [key: string]: any } = {};
-    style.fontSize = `${textStyle.fontSize}px`;
-    if (textStyle.textDecoration !== 'NONE')
-      style.textDecoration =
-        textStyleMapper['textDecoration'][textStyle.textDecoration];
-    style.fontFamily = textStyle.fontName.family;
-    textStyle.fontName.style.split(' ').forEach((st: string) => {
-      if (st === 'Italic') {
-        style.fontStyle = 'italic';
-      } else {
-        const mappedWeight = textStyleMapper['fontStyle'][st];
-        if (mappedWeight) style.fontWeight = mappedWeight;
-      }
-    });
-    style.letterSpacing =
-      textStyle.letterSpacing.unit === 'PIXELS'
-        ? `${textStyle.letterSpacing.value}px`
-        : `${textStyle.letterSpacing.value / 100}em`;
-
-    if (textStyle.lineHeight.unit !== 'AUTO') {
-      style.lineHeight =
-        textStyle.letterSpacing.unit === 'PIXELS'
-          ? `${textStyle.letterSpacing.value}px`
-          : `${textStyle.letterSpacing.value}px`;
-    }
-
-    if (textStyle.paragraphIndent != 0)
-      style.textIndent = `${textStyle.paragraphIndent}px`;
-    if (textStyle.textCase !== 'ORIGINAL')
-      style.textTransform = textStyleMapper['textCase'][textStyle.textCase];
-
-    // TODO: Get the color for the text style. If the document has a string with that text style, use the color of that text node. 
-
+    let style: { [key: string]: any } = processTextStyle(textStyle);
     const originKey = getDepthName(textStyle.name);
     const key = checkDuplicatedName(originKey, codeObj, dupCnt);
-    const pascalCaseKey = convertKebabToPascal(key);
-    codeObj[pascalCaseKey] = style;
+    codeObj[key] = style;
   });
 
   if (mode === 'css') {
@@ -88,6 +90,27 @@ export function parseTextStyle(arr: TextStyle[], mode: string) {
   }
 
   return arr.length
-    ? `//text style \nexport const textStyles = StyleSheet.create(\n${code}\n)`
+    ? `//text style \n ${code}\n`
     : `//no assigned global text code\n`;
+}
+
+export function parseTextStylesForDownload(arr: TextStyle[]) {
+let code = '';
+  let codeObj = {} as { [key: string]: any };
+  let dupCnt = {} as { [key: string]: number };
+
+  arr.forEach((textStyle) => {
+    let style: { [key: string]: any } = processTextStyle(textStyle);
+    // TODO: Get the color for the text style. If the document has a string with that text style, use the color of that text node. 
+    const originKey = getDepthName(textStyle.name);
+    const key = checkDuplicatedName(originKey, codeObj, dupCnt);
+    const pascalCaseKey = convertKebabToPascal(key);
+    codeObj[pascalCaseKey] = style;
+  });
+
+  code = JSON.stringify(codeObj, null, 2);
+
+  return arr.length
+    ? `export const textStyles = StyleSheet.create(\n${code}\n)\n`
+    : '';
 }

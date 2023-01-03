@@ -10,8 +10,15 @@ function sendMessage(stylings: Stylings) {
 		}
 		return acc;
 	}, ``);
-
-	figma.ui.postMessage(code);
+	let downloadableCode = Object.keys(stylings).reduce((acc, cur) => {
+		const styling = stylings[cur as Option];
+		if (styling.show) {
+			acc += `${styling.downloadableCode}`;
+		}
+		return acc;
+	}, ``);
+	
+	figma.ui.postMessage({code, downloadableCode });
 }
 
 if (figma.editorType === "figma") {

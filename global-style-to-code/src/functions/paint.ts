@@ -85,19 +85,51 @@ export function parsePaintStyle(
     });
   }
   let code = JSON.stringify(codeObj, null, 2);
-  let codeToEnum = '';
-
-  for (const colorKey in codeObj) {
-    if (typeof codeObj[colorKey] !== 'string') {
-      continue;
-    }
-    codeToEnum = `${codeToEnum}${codeToEnum.length === 0 ? '' : ','}${colorKey.toLocaleUpperCase().replace('-', '_')}='${codeObj[colorKey]}'`
-  }
-
   if (mode === 'css' || mode === 'scss') {
     code = replaceToStyleCode(code);
   }
   return arr.length
-    ? `//paint style \nexport enum Colors {${codeToEnum}}\n`
+    ? `//paint style \n ${code}\n`
     : `//no assigned global paint code\n`; // space 2, replacer null
+}
+
+export function parsePaintStyleForDownload(
+  arr: PaintStyle[],
+  option: PaintOption
+) {
+  let codeObj = {} as { [key: string]: any };
+  let dupCnt = {} as { [key: string]: number };
+  arr.forEach((el) => {
+    let path = getVariableName(el.name).split('/');
+    let cur = codeObj;
+    path.forEach((originKey: any, i: number) => {
+      let key = checkDuplicatedName(originKey, codeObj, dupCnt);
+
+      if (i === path.length - 1) {
+        if (el.paints.length <= 1) {
+          cur[key] = getColor(el.paints[0], option);
+        } else {
+          el.paints.forEach((paint: any, idx: number) => {
+            checkEmptyObject(cur, key);
+            cur[key][idx] = getColor(paint, option);
+          });
+        }
+      } else {
+        checkEmptyObject(cur, key);
+        cur = cur[key];
+      }
+    });
+  });
+  let codeToEnum = '';
+
+  for (const colorKey in codeObj) {
+    if (typeof codeObj[colorKey] !== 'string') { // Mixed colors are not included
+      continue;
+    }
+    codeToEnum = `${codeToEnum}${codeToEnum.length === 0 ? '' : ','}${colorKey.toLocaleUpperCase().replace('-', '_')}="${codeObj[colorKey]}"`
+  }
+
+  return arr.length
+    ? `export enum Colors {${codeToEnum}}\n`
+    : '';
 }

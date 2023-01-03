@@ -31,7 +31,7 @@ export function parseEffectStyle(arr: EffectStyle[], mode: string) {
       }
     });
 
-    style['box-shadow'] = style['box-shadow'].join(', ');
+    style['box-shadow'] = style['box-shadow'] ? style['box-shadow'].join(', ') : [];
 
     const originKey = getDepthName(effectStyle.name);
     const key = checkDuplicatedName(originKey, codeObj, dupCnt);

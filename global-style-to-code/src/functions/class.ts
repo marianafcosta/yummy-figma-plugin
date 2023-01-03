@@ -1,14 +1,16 @@
 import { ExportMode, PaintOption } from "../@types/index";
 import { parseEffectStyle } from "./effect";
-import { parsePaintStyle } from "./paint";
-import { parseTextStyle } from "./text";
+import { parsePaintStyle, parsePaintStyleForDownload } from "./paint";
+import { parseTextStyle, parseTextStylesForDownload } from "./text";
 
 export class Styling {
 	code: string;
+	downloadableCode: string; // String formated as a valid TSX file
 	mode: ExportMode;
 	show: boolean;
 	constructor() {
 		this.code = "";
+		this.downloadableCode = "";
 		this.mode = "object";
 		this.show = false;
 	}
@@ -35,6 +37,7 @@ export class TextStyling extends Styling {
 	}
 	getStyle() {
 		this.code = parseTextStyle(this.style, this.mode);
+		this.downloadableCode = parseTextStylesForDownload(this.style)
 	}
 }
 
@@ -48,6 +51,7 @@ export class PaintStyling extends Styling {
 	}
 	getStyle() {
 		this.code = parsePaintStyle(this.style, this.mode, this.paintOption);
+		this.downloadableCode = parsePaintStyleForDownload(this.style, this.paintOption);
 	}
 	changePaintOption(option: PaintOption) {
 		this.paintOption = option;

@@ -16,6 +16,7 @@ export type PaintOption = "RGB" | "HSL" | "HEX";
 
 export class Styling {
 	code: string;
+	downloadableCode: string;
 	mode: ExportMode;
 	show: boolean;
 	constructor();

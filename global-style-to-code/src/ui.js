@@ -1,8 +1,8 @@
 onmessage = (event) => {
-	document.getElementById("code").value = event.data.pluginMessage;
+	document.getElementById("code").value = event.data.pluginMessage.code;
 	// TODO: Instead of updating the link everytime we get a message, we should only update it when the user presses the download button
 	const downloadLink = document.getElementById("download-link");
-  	const file = new Blob([event.data.pluginMessage], {type: "text/plain"});
+	const file = new Blob([event.data.pluginMessage.downloadableCode], {type: "text/plain"});
 	downloadLink.href = URL.createObjectURL(file);
 	downloadLink.download = 'styles.tsx';
 };
@@ -54,10 +54,6 @@ document.getElementById("copy").onclick = () => {
 document.getElementById("cancel").onclick = () => {
 	parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
 };
-
-document.getElementById("download").onclick = () => {
-	parent.postMessage({ pluginMessage: { type: "download" } }, "*");
-}
 
 function copyTextToClipboard() {
 	const text = document.getElementById("code").value;
