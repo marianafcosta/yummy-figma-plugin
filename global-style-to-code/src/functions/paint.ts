@@ -85,10 +85,19 @@ export function parsePaintStyle(
     });
   }
   let code = JSON.stringify(codeObj, null, 2);
+  let codeToEnum = '';
+
+  for (const colorKey in codeObj) {
+    if (typeof codeObj[colorKey] !== 'string') {
+      continue;
+    }
+    codeToEnum = `${codeToEnum}${codeToEnum.length === 0 ? '' : ','}${colorKey.toLocaleUpperCase().replace('-', '_')}='${codeObj[colorKey]}'`
+  }
+
   if (mode === 'css' || mode === 'scss') {
     code = replaceToStyleCode(code);
   }
   return arr.length
-    ? `//paint style \n ${code}\n`
+    ? `//paint style \nexport enum Colors {${codeToEnum}}\n`
     : `//no assigned global paint code\n`; // space 2, replacer null
 }
