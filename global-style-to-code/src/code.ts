@@ -16,7 +16,7 @@ function sendMessage(stylings: Stylings) {
 			acc += `${styling.downloadableCode}`;
 		}
 		return acc;
-	}, ``);
+	}, `import { StyleSheet } from 'react-native';\n`);
 	
 	figma.ui.postMessage({code, downloadableCode });
 }
