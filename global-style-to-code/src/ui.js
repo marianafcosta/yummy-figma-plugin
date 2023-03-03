@@ -1,10 +1,112 @@
+const upsertColorStyles = async (data) => {
+	const accessToken = document.getElementById("access-token").value
+	const email = document.getElementById("email").value
+	const author = document.getElementById("author").value
+	const commitMsg = document.getElementById("commit-msg").value
+	const projectId = document.getElementById("project-id").value
+	const filename = document.getElementById("filename").value
+	const branchName = document.getElementById("branch-name").value
+	const targetBranch = document.getElementById("target-branch").value
+	const fileExtension = document.getElementById("file-extension").value
+
+	const createBranchRaw = await fetch(`https://gitlab.com/api/v4/projects/${projectId}/repository/branches`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"PRIVATE-TOKEN": accessToken,
+		},
+		body: JSON.stringify({
+			branch: branchName,
+			ref: targetBranch
+		})
+	})
+	const createBranchParsed = await createBranchRaw.json()
+	console.log(createBranchParsed)
+
+	
+	if (createBranchRaw.status === 400 && createBranchParsed.message === "Branch already exists") {
+		// TODO: Send alert
+	} else if (createBranchRaw.status !== 200) {
+		// TODO: Send alert
+	}
+
+	const requestRaw = await fetch(`https://gitlab.com/api/v4/projects/${projectId}/repository/files/${filename}%2E${fileExtension}?ref=${branchName}`, {
+		method: "GET",
+		headers: {
+			"PRIVATE-TOKEN": accessToken,
+		},
+	})
+	const requestParsed = await requestRaw.json()
+	if (requestParsed.message === "404 File Not Found") {
+		const createFileRequestRaw = await fetch(`https://gitlab.com/api/v4/projects/${projectId}/repository/files/${filename}%2E${fileExtension}`, {
+			method: "POST",
+			headers: {
+			"Content-Type": "application/json",
+			"PRIVATE-TOKEN": accessToken,
+			},
+			body: JSON.stringify({
+				branch: branchName, 
+				author_email: email,
+				author_name: author,
+				content: data,
+				commit_message: commitMsg
+			})
+		})
+		const createFileRequestParsed = await createFileRequestRaw.json()
+		console.log(createFileRequestParsed)
+	} else if (requestRaw.status === 200) {
+		const updateFileRequestRaw = await fetch(`https://gitlab.com/api/v4/projects/${projectId}/repository/files/${filename}%2E${fileExtension}`, {
+			method: "PUT",
+			headers: {
+			"Content-Type": "application/json",
+			"PRIVATE-TOKEN": accessToken,
+			},
+			body: JSON.stringify({
+				branch: branchName, 
+				author_email: email,
+				author_name: author,
+				content: data,
+				commit_message: commitMsg
+			})
+		})
+		const updateFileRequestParsed = await updateFileRequestRaw.json()
+		console.log(updateFileRequestParsed)
+	}
+
+	// Open MR for that branch
+	const openMergeRequestRaw = await fetch(`https://gitlab.com/api/v4/projects/${projectId}/merge_requests`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"PRIVATE-TOKEN": accessToken,
+		},
+		body: JSON.stringify({
+			source_branch: branchName,
+			target_branch: targetBranch,
+			title: branchName,
+		})
+	})
+	const openMergeRequestParsed = await openMergeRequestRaw.json()
+
+	console.log(openMergeRequestParsed)
+}
+
+
 onmessage = (event) => {
-	document.getElementById("code").value = event.data.pluginMessage.code;
-	// TODO: Instead of updating the link everytime we get a message, we should only update it when the user presses the download button
-	const downloadLink = document.getElementById("download-link");
-	const file = new Blob([event.data.pluginMessage.downloadableCode], {type: "text/plain"});
-	downloadLink.href = URL.createObjectURL(file);
-	downloadLink.download = 'styles.tsx';
+	if (event.data.pluginMessage.type === "create-merge-request-response") {
+		upsertColorStyles(event.data.pluginMessage.data);
+	}
+
+	if (event.data.pluginMessage.code) {
+		document.getElementById("code").value = event.data.pluginMessage.code;
+	}
+	if (event.data.pluginMessage.downloadableCode) {
+		// TODO: Instead of updating the link everytime we get a message, we should only update it when the user presses the download button
+		const downloadLink = document.getElementById("download-link");
+		const file = new Blob([event.data.pluginMessage.downloadableCode], {type: "text/plain"});
+		downloadLink.href = URL.createObjectURL(file);
+		downloadLink.download = 'styles.tsx';
+	}
 };
 
 document.querySelectorAll("input[type=checkbox]").forEach((el) => {
@@ -51,8 +153,8 @@ document.getElementById("copy").onclick = () => {
 	copyTextToClipboard();
 };
 
-document.getElementById("cancel").onclick = () => {
-	parent.postMessage({ pluginMessage: { type: "cancel" } }, "*");
+document.getElementById("create-merge-request").onclick = async () => {
+	parent.postMessage({ pluginMessage: { type: "create-merge-request-request" } }, "*");
 };
 
 function copyTextToClipboard() {

@@ -87,6 +87,8 @@ export function parsePaintStyle(
   let code = JSON.stringify(codeObj, null, 2);
   if (mode === 'css' || mode === 'scss') {
     code = replaceToStyleCode(code);
+  } else if (mode === 'react-native') {
+    code = parsePaintStyleForDownload(arr, option)
   }
   return arr.length
     ? `//paint style \n ${code}\n`

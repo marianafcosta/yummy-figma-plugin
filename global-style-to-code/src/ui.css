@@ -51,14 +51,21 @@ h4 {
 button {
   color: #fff;
   background-color: #2300be;
-  width: 168px;
-  height: 40px;
   outline: none;
   font-size: 16px;
   margin: 8px;
   border: 1px solid #2c2c2c;
   border-radius: 10px;
   cursor: pointer;
+}
+
+button > a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.gitlab-settings > input {
+  display: block;
 }
 
 #toast {

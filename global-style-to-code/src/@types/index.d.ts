@@ -2,7 +2,7 @@ import { parseEffectStyle } from "../functions/effect";
 import { parsePaintStyle } from "../functions/paint";
 import { parseTextStyle } from "../functions/text";
 
-export type ExportMode = "object" | "css" | "scss";
+export type ExportMode = "object" | "css" | "scss" | "react-native";
 
 export type Option = "text" | "paint" | "effect";
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "extract all styling from figma files",
   "scripts": {
-    "start": "parcel src/ui.html src/code.ts  --no-source-maps --no-cache --no-hmr",
+    "start": "parcel src/*.html src/code.ts  --no-source-maps --no-cache --no-hmr",
     "build": "parcel build --no-source-maps  --no-cache"
   },
   "source": [

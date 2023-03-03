@@ -10,15 +10,38 @@
 </head>
 
 <body class="plugin-body">
-  <h3>Global Style to Code!</h3>
+  <h3>Exporter 3000</h3>
   <textarea id="code">
 </textarea>
   <div class="button-box">
-    <button type="button" id="copy">Copy to Clip Board</button>
-    <button type="button" id="cancel">Cancel</button>
+    <button type="button" id="create-merge-request">Create merge request</button>
+    <button type="button" id="copy">Copy to clipboard</button>
+    <button type="button">
     <a href="" id="download-link">
-      Download file
+      Download TSX file
     </a>
+    </button>
+  </div>
+  <h4>GitLab settings</h4>
+  <div class="gitlab-settings">
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" />
+    <label for="author">Author</label>
+    <input type="text" id="author" name="author" />
+    <label for="commit-msg">Commit message</label>
+    <input type="text" id="commit-msg" name="commit-msg" />
+    <label for="branch-name">Branch name</label>
+    <input type="text" id="branch-name" name="branch-name" />
+    <label for="target-branch">Target branch</label>
+    <input type="text" id="target-branch" name="target-branch" />
+    <label for="access-token">Access token</label>
+    <input type="password" id="access-token" name="access-token" />
+    <label for="filename">Filename</label>
+    <input type="text" id="filename" name="filename" />
+    <label for="file-extension">File extension</label>
+    <input type="text" id="file-extension" name="file-extension" />
+    <label for="project-id">Project ID</label>
+    <input type="text" id="project-id" name="project-id" />
   </div>
   <div class="check-box">
     <h4>select what style you want to convert to code and export mode</h4>
@@ -29,9 +52,10 @@
           text style
         </label>
         <select class="mode" data-mode="text">
-          <option value="object" selected>object style</option>
-          <option value="css">css style (class)</option>
-          <option value="scss">scss style (text: mixin, color: variable, effect: mixin )</option>
+          <option value="object" selected>JSON</option>
+          <option value="css">CSS</option>
+          <option value="scss">SCSS</option>
+          <option value="react-native">React Native</option>
         </select>
       </span>
 
@@ -41,9 +65,10 @@
           paint style
         </label>
         <select class="mode" data-mode="paint">
-          <option value="object" selected>object style</option>
-          <option value="css">css style (class)</option>
-          <option value="scss">scss style (text: mixin, color: variable, effect: mixin )</option>
+          <option value="object" selected>JSON</option>
+          <option value="css">CSS</option>
+          <option value="scss">SCSS</option>
+          <option value="react-native">React Native</option>
         </select>
       </span>
 
@@ -53,9 +78,10 @@
           effect style
         </label>
         <select class="mode" data-mode="effect">
-          <option value="object" selected>object style</option>
-          <option value="css">css style (class)</option>
-          <option value="scss">scss style (text: mixin, color: variable, effect: mixin )</option>
+          <option value="object" selected>JSON</option>
+          <option value="css">CSS</option>
+          <option value="scss">SCSS</option>
+          <option value="react-native">React Native</option>
         </select></span>
     </div>
   </div>

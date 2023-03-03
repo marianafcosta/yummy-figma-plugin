@@ -1,4 +1,3 @@
-import { TextStyling } from './class';
 import { checkDuplicatedName, convertKebabToPascal, getDepthName, replaceToStyleCode } from './utils';
 const textStyleMapper = {
   textDecoration: {
@@ -85,6 +84,8 @@ export function parseTextStyle(arr: TextStyle[], mode: string) {
       )}\n`;
       return acc;
     }, ``);
+  } else if (mode === 'react-native') {
+    code = parseTextStylesForDownload(arr)
   } else {
     code = JSON.stringify(codeObj, null, 2);
   }
@@ -94,6 +95,18 @@ export function parseTextStyle(arr: TextStyle[], mode: string) {
     : `//no assigned global text code\n`;
 }
 
+function parseTextStylesForReactNative(style: { [key: string]: any }) {
+  return {
+    // TODO: Can't use spread operator
+    // ...style,
+    fontFamily: style.fontFamily,
+    fontSize: parseInt(style.fontSize.slice(0, -2)),
+    fontWeight: `${style.fontWeight}`,
+    lineHeight:  parseInt(style.lineHeight.slice(0, -2)),
+    letterSpacing: parseInt(style.letterSpacing.slice(0, -2)), // TODO: This doesn't work with percentages, the letterSpacing property may be unusable until I figure this out
+  }
+}
+
 export function parseTextStylesForDownload(arr: TextStyle[]) {
 let code = '';
   let codeObj = {} as { [key: string]: any };
@@ -101,13 +114,18 @@ let code = '';
 
   arr.forEach((textStyle) => {
     let style: { [key: string]: any } = processTextStyle(textStyle);
+    let rnStyle = parseTextStylesForReactNative(style)
+
+    console.log(style, rnStyle)
+
     // TODO: Get the color for the text style. If the document has a string with that text style, use the color of that text node. 
     const originKey = getDepthName(textStyle.name);
     const key = checkDuplicatedName(originKey, codeObj, dupCnt);
     const pascalCaseKey = convertKebabToPascal(key);
-    codeObj[pascalCaseKey] = style;
+    codeObj[pascalCaseKey] = rnStyle;
   });
 
+  console.log(code)
   code = JSON.stringify(codeObj, null, 2);
 
   return arr.length
