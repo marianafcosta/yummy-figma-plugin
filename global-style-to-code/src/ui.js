@@ -118,19 +118,11 @@ document.querySelectorAll("input[type=checkbox]").forEach((el) => {
 	el.addEventListener("click", () => {
 		const container = el.closest("span");
 		const id = container.id;
-		const select = container.querySelector(".mode");
-		if (el.checked) {
-			select.style.height = "100%";
-			select.style.opacity = 1;
-		} else {
-			select.style.height = 0;
-			select.style.opacity = 0;
-		}
 		parent.postMessage({ pluginMessage: { type: "style", id: id } }, "*");
 	});
 });
 
-document.querySelectorAll("input[type=radio]").forEach((el) => {
+document.querySelectorAll("input[type=radio]:not([name='format'])").forEach((el) => {
 	el.addEventListener("click", () => {
 		if (el.checked) {
 			parent.postMessage(
@@ -141,18 +133,14 @@ document.querySelectorAll("input[type=radio]").forEach((el) => {
 	});
 });
 
-document.querySelectorAll("select.mode").forEach((select) => {
-	select.addEventListener("change", () => {
-		changeMode(select.dataset.mode, select.value);
+document.querySelectorAll('input[name="format"]').forEach((input) => {
+	input.addEventListener("change", () => {
+		parent.postMessage(
+			{ pluginMessage: { type: "mode", change: input.value } },
+			"*"
+		);
 	});
 });
-
-function changeMode(id, value) {
-	parent.postMessage(
-		{ pluginMessage: { type: "mode", id: id, change: value } },
-		"*"
-	);
-}
 
 document.getElementById("copy").onclick = () => {
 	copyTextToClipboard();

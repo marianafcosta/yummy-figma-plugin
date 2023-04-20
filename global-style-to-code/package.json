@@ -25,5 +25,8 @@
     "@figma/plugin-typings": "*",
     "parcel": "2.8.0",
     "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "figma-plugin-ds": "^1.0.1"
   }
 }

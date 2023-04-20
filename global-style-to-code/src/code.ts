@@ -38,9 +38,10 @@ if (figma.editorType === "figma") {
 				figma.ui.postMessage({code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
 				break;
 			case "mode":
-				const modeId = msg.id as Option;
 				const change = msg.change;
-				stylings[modeId].changeMode(change);
+				stylings["text"].changeMode(change);
+				stylings["paint"].changeMode(change);
+				stylings["effect"].changeMode(change);
 				figma.ui.postMessage({code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
 				break;
 			case "paint-option":
