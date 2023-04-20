@@ -1,105 +1,23 @@
-* {
-  color: #2c2c2c;
-  accent-color: #2300be;
-  font-family: "Poppins", sans-serif;
-}
-
-.plugin-body {
-  background-color: rgb(237, 237, 237);
-  margin: 8px 16px;
+.nav-menu {
   display: flex;
-  flex-direction: column;
-}
-
-#code {
-  border: 1px solid #2300be;
-  width: 100%;
-  min-height: 300px;
-  display: flex;
-  background: #2c2c2c;
-  color: #fff;
-  font-family: "Ubuntu mono";
-  resize: vertical;
-}
-
-.check-box {
-  margin: 8px 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.input-box {
-  display: flex;
-  margin-top: 8px;
+  padding: 0 12px;
+  gap: 16px;
+  background-color: #2C2C2C;
+  border-bottom: #444444;
   align-items: center;
 }
 
-.button-box {
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-  margin: 8px 0;
+.nav-item {
+  color: #FFFFFF;
+  font-size: 11;
+  font-weight: 600;
+  padding: 12px 0;
 }
 
-h3 {
-  font-family: "Rubik Mono One", sans-serif;
-}
-h4 {
-  margin: 8px 0;
+:not(:checked) + label {
+  opacity: 0.6;
 }
 
-button {
-  color: #fff;
-  background-color: #2300be;
-  outline: none;
-  font-size: 16px;
-  margin: 8px;
-  border: 1px solid #2c2c2c;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-button > a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.gitlab-settings > input {
-  display: block;
-}
-
-#toast {
-  z-index: 999999;
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  margin-left: -100px;
-  opacity: 0;
-  width: 200px;
-  padding: 8px;
-  text-align: center;
-  display: flex;
-  background-color: #000;
-  color: #fff;
-  transition: all 0.2s ease;
-  border: 1px solid #2300be;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-#convert span {
-  display: flex;
-  flex-direction: column;
-  height: 65px;
-}
-
-.mode {
-  margin: 8px 0;
-  opacity: 0;
-  transition: all 0.3s ease;
-  width: 80%;
-  height: 24px;
+.hidden {
+  display: none;
 }

@@ -1,6 +1,7 @@
 <head>
   <style>
     @import './ui.css';
+    @import '../node_modules/figma-plugin-ds/dist/figma-plugin-ds.css';
   </style>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,9 +11,20 @@
 </head>
 
 <body class="plugin-body">
-  <h3>Exporter 3000</h3>
-  <textarea id="code">
-</textarea>
+    <div class="nav-menu">
+      <input
+        class="hidden"
+        type="radio"
+        id="format-tsx"
+        name="format"
+        value="tsx" checked/>
+      <label class='nav-item' for="format-tsx">TSX</label>
+      <input class="hidden" type="radio" id="format-json" name="format" value="json" />
+      <label class='nav-item' for="format-json">JSON</label>
+      <input class="hidden" type="radio" id="format-css" name="format" value="css" />
+      <label class='nav-item' for="format-css">CSS</label>
+    </div>
+  <textarea id="code"></textarea>
   <div class="button-box">
     <button type="button" id="create-merge-request">Create merge request</button>
     <button type="button" id="copy">Copy to clipboard</button>
@@ -94,6 +106,7 @@
     </div>
   </div>
   <div id="toast"></div>
+  <script src="../node_modules/figma-plugin-ds/dist/iife/figma-plugin-ds.js"></script> 
   <script type="module">
     import './ui.js';
   </script>

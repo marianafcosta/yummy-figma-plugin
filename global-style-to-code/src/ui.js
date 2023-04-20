@@ -1,3 +1,8 @@
+import { selectMenu, disclosure } from 'figma-plugin-ds';
+
+disclosure.init()
+selectMenu.init()
+
 const upsertColorStyles = async (data) => {
 	const accessToken = document.getElementById("access-token").value
 	const email = document.getElementById("email").value
