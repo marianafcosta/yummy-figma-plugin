@@ -24,7 +24,38 @@
       <input class="hidden" type="radio" id="format-css" name="format" value="css" />
       <label class='nav-item' for="format-css">CSS</label>
     </div>
-  <textarea id="code"></textarea>
+    <div class="main-panel">
+      <textarea id="code"></textarea>
+      <div class="export-options">
+          <span class="tokens-title">Tokens</span>
+          <div class="option-checkbox">
+            <input type="checkbox" id="text" name="text" />
+            <label for="text">Text styles</label>
+          </div>
+          <div class="option-checkbox">
+            <input type="checkbox" id="paint" name="paint" />
+            <label for="paint">Color styles</label>
+          </div>
+          <div class="color-options">
+            <div>
+              <input type="radio" id="RGB" name="color-option" value="RGB" checked />
+              <label for="RGB">RGB</label>
+            </div >
+            <div>
+              <input type="radio" id="HEX" name="color-option" value="HEX" />
+              <label for="HEX">HEX</label>
+            </div>
+            <div>
+              <input type="radio" id="HSL" name="color-option" value="HSL" />
+              <label for="HSL">HSL</label>
+            </div>
+          </div>
+          <div class="option-checkbox">
+            <input type="checkbox" id="effect" name="effect" />
+            <label for="effect">Effect styles</label>
+          </div>
+      </div>
+    </div>
   <div class="button-box">
     <button type="button" id="create-merge-request">Create merge request</button>
     <button type="button" id="copy">Copy to clipboard</button>
@@ -54,39 +85,6 @@
     <input type="text" id="file-extension" name="file-extension" />
     <label for="project-id">Project ID</label>
     <input type="text" id="project-id" name="project-id" />
-  </div>
-  <div class="check-box">
-    <h4>select what style you want to convert to code and export mode</h4>
-    <div class="input-box" id="convert">
-      <span id="text">
-        <label>
-          <input type="checkbox" id="text-style" name="text-style" />
-          text style
-        </label>
-      </span>
-
-      <span id="paint">
-        <label>
-          <input type="checkbox" id="paint-style" name="paint-style" />
-          paint style
-        </label>
-      </span>
-
-      <span id="effect">
-        <label>
-          <input type="checkbox" id="effect-style" name="effect-style" />
-          effect style
-        </label>
-      </span>
-    </div>
-  </div>
-  <div class="check-box">
-    <h4>check paint style color code option</h4>
-    <div class="input-box">
-      <label><input type="radio" id="RGB" name="paint-option" value="RGB" checked />RGB</label>
-      <label><input type="radio" id="HEX" name="paint-option" value="HEX" />HEX</label>
-      <label><input type="radio" id="HSL" name="paint-option" value="HSL" />HSL</label>
-    </div>
   </div>
   <div id="toast"></div>
   <script src="../node_modules/figma-plugin-ds/dist/iife/figma-plugin-ds.js"></script> 

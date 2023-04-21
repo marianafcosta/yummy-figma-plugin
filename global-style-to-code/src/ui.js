@@ -116,9 +116,7 @@ onmessage = (event) => {
 
 document.querySelectorAll("input[type=checkbox]").forEach((el) => {
 	el.addEventListener("click", () => {
-		const container = el.closest("span");
-		const id = container.id;
-		parent.postMessage({ pluginMessage: { type: "style", id: id } }, "*");
+		parent.postMessage({ pluginMessage: { type: "style", id: el.id } }, "*");
 	});
 });
 

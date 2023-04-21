@@ -1,9 +1,15 @@
+body {
+  color: #FFFFFF;
+  background-color: #2C2C2C;
+}
+
 .nav-menu {
   display: flex;
   padding: 0 12px;
   gap: 16px;
-  background-color: #2C2C2C;
   border-bottom: #444444;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
   align-items: center;
 }
 
@@ -20,4 +26,45 @@
 
 .hidden {
   display: none;
+}
+
+.main-panel {
+  display: flex;
+  padding: 12px;
+  gap: 12px;
+  font-size: 11;
+  font-weight: 400;
+}
+
+textarea {
+  flex: 1;
+  padding: 12px;
+  background-color: #242424;
+  color: #ffffff;
+  border-radius: 2px;
+  border-color: #444444;
+}
+
+.export-options, .color-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.color-options {
+  align-items: center;
+}
+
+.color-options > div, .option-checkbox  {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-options > div > input {
+  margin: 0;
+}
+
+.tokens-title {
+  font-weight: 600;
 }
