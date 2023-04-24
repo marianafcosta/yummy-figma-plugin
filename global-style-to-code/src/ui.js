@@ -3,6 +3,10 @@ import { selectMenu, disclosure } from 'figma-plugin-ds';
 disclosure.init()
 selectMenu.init()
 
+if (document.getElementById("settings-panel")) {
+	document.getElementById("settings-panel").style.display = "none";
+}
+
 const upsertColorStyles = async (data) => {
 	const accessToken = document.getElementById("access-token").value
 	const email = document.getElementById("email").value
@@ -133,10 +137,19 @@ document.querySelectorAll("input[type=radio]:not([name='format'])").forEach((el)
 
 document.querySelectorAll('input[name="format"]').forEach((input) => {
 	input.addEventListener("change", () => {
-		parent.postMessage(
-			{ pluginMessage: { type: "mode", change: input.value } },
-			"*"
-		);
+		if (input.id === "settings") {
+			document.getElementById("main-panel").style.display = "none";
+			document.getElementById("actions").style.display = "none";
+			document.getElementById("settings-panel").style.display = "flex";
+		} else {
+			document.getElementById("main-panel").style.display = "flex";
+			document.getElementById("actions").style.display = "flex";
+			document.getElementById("settings-panel").style.display = "none";
+			parent.postMessage(
+				{ pluginMessage: { type: "mode", change: input.value } },
+				"*"
+			);
+		}
 	});
 });
 

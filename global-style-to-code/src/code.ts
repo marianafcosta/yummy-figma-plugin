@@ -22,7 +22,7 @@ function getDownloadableCodeFromStylings(stylings: Stylings) {
 }
 
 if (figma.editorType === "figma") {
-	figma.showUI(__uiFiles__.main, { width: 440, height: 489 });
+	figma.showUI(__uiFiles__.main, { width: 440, height: 447 });
 
 	const stylings: Stylings = {
 		text: new TextStyling(figma.getLocalTextStyles()),

@@ -12,19 +12,23 @@
 
 <body class="plugin-body">
     <div class="nav-menu">
-      <input
-        class="hidden"
-        type="radio"
-        id="format-tsx"
-        name="format"
-        value="react-native" checked/>
-      <label class='nav-item' for="format-tsx">TSX</label>
-      <input class="hidden" type="radio" id="format-json" name="format" value="object" />
-      <label class='nav-item' for="format-json">JSON</label>
-      <input class="hidden" type="radio" id="format-css" name="format" value="css" />
-      <label class='nav-item' for="format-css">CSS</label>
+      <div class="formats">
+        <input
+          class="hidden"
+          type="radio"
+          id="format-tsx"
+          name="format"
+          value="react-native" checked/>
+        <label class='nav-item' for="format-tsx">TSX</label>
+        <input class="hidden" type="radio" id="format-json" name="format" value="object" />
+        <label class='nav-item' for="format-json">JSON</label>
+        <input class="hidden" type="radio" id="format-css" name="format" value="css" />
+        <label class='nav-item' for="format-css">CSS</label>
+      </div>
+      <input class="hidden" type="radio" id="settings" name="format" value="settings" />
+      <label class='settings nav-item' for="settings">GitLab settings</label>
     </div>
-    <div class="main-panel">
+    <div id="main-panel" class="main-panel">
       <textarea id="code"></textarea>
       <div class="export-options">
           <span class="tokens-title">Tokens</span>
@@ -56,34 +60,51 @@
           </div>
       </div>
     </div>
-  <div class="actions">
+  <div id="settings-panel" class="settings-panel">
+    <div class="setting-field">
+      <label class="setting-label" for="email">Email</label>
+      <input class="settings-input" type="input" placeholder="max@test.com" name="email">
+    </div>
+    <div class="setting-field">
+      <label class="setting-label" for="author">Author</label>
+      <input class="settings-input" type="text" id="author" placeholder="Max" name="author" />
+    </div>
+    <div class="setting-field">
+      <label class="setting-label" for="commit-msg">Commit message</label>
+      <input class="settings-input" type="text" id="commit-msg" placeholder="style: update style tokens" value="style: update style tokens" name="commit-msg" />
+    </div>
+    <div class="setting-field">
+      <label class="setting-label" for="branch-name">Branch name</label>
+      <input class="settings-input" type="text" id="branch-name" placeholder="update-style-tokens" value="update-style-tokens" name="branch-name" />
+    </div>
+    <div class="setting-field">
+      <label class="setting-label" for="target-branch">Target branch</label>
+      <input class="settings-input" type="text" id="target-branch" placeholder="main" value="main" name="target-branch" />
+    </div>
+    <div class="setting-field">
+      <label title="You can create an access token in GitLab's user settings page, under the 'Access Tokens' section" class="setting-label" for="access-token">Access token</label>
+      <input class="settings-input" type="password" id="access-token" placeholder="ks02i3jdikdo2k0dkfodf3m39rjfjsdk0wk349rj3jrhf" name="access-token" />
+    </div>
+    <div class="setting-field">
+      <label class="setting-label" for="filename">Filename</label>
+      <input class="settings-input" type="text" id="filename" placeholder="styles" value="styles" name="filename" />
+    </div>
+    <div class="setting-field">
+      <label class="setting-label" for="file-extension">File extension</label>
+      <input class="settings-input" type="text" id="file-extension" placeholder="tsx" value="tsx" name="file-extension" />
+    </div>
+    <div class="setting-field">
+      <label title="You can find the project ID in the project's GitLab homepage" class="setting-label" for="project-id">Project ID</label>
+      <input class="settings-input" type="text" id="project-id" placeholder="43875284" name="project-id" />
+    </div>
+  </div>
+  <div id="actions" class="actions">
     <button class='button button--primary' type="button" id="create-merge-request">Create merge request</button>
     <button class='button button--primary' type="button">
       <a href="" id="download-link">
         Download TSX file
       </a>
     </button>
-  </div>
-  <h4>GitLab settings</h4>
-  <div class="gitlab-settings">
-    <label for="email">Email</label>
-    <input type="text" id="email" name="email" />
-    <label for="author">Author</label>
-    <input type="text" id="author" name="author" />
-    <label for="commit-msg">Commit message</label>
-    <input type="text" id="commit-msg" name="commit-msg" />
-    <label for="branch-name">Branch name</label>
-    <input type="text" id="branch-name" name="branch-name" />
-    <label for="target-branch">Target branch</label>
-    <input type="text" id="target-branch" name="target-branch" />
-    <label for="access-token">Access token</label>
-    <input type="password" id="access-token" name="access-token" />
-    <label for="filename">Filename</label>
-    <input type="text" id="filename" name="filename" />
-    <label for="file-extension">File extension</label>
-    <input type="text" id="file-extension" name="file-extension" />
-    <label for="project-id">Project ID</label>
-    <input type="text" id="project-id" name="project-id" />
   </div>
   <div id="toast"></div>
   <script src="../node_modules/figma-plugin-ds/dist/iife/figma-plugin-ds.js"></script> 

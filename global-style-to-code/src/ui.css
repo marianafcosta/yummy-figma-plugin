@@ -16,6 +16,13 @@ body {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   align-items: center;
+  justify-content: space-between;
+}
+
+.formats {
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 
 .nav-item {
@@ -48,6 +55,7 @@ textarea {
   color: #ffffff;
   border-radius: 2px;
   border-color: #444444;
+  min-height: 340px;
 }
 
 .export-options, .color-options {
@@ -79,4 +87,35 @@ textarea {
   flex-direction: row;
   padding: 0 12px;
   gap: 12px;
+}
+
+.settings-panel {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.setting-field {
+  display: flex;
+  color: #FFFFFF;
+  font-size: 11;
+  font-weight: 600;
+  align-items: center;
+}
+
+.setting-label {
+  flex: 1;
+}
+
+.settings-input {
+  height: 32px;
+  min-width: 250px;
+  background-color: #242424;
+  border-color: #444444;
+  color: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  padding: 6px;
 }
