@@ -7,6 +7,11 @@ if (document.getElementById("settings-panel")) {
 	document.getElementById("settings-panel").style.display = "none";
 }
 
+// Since the initially selected format is TSX, disable the effect export since we don't support TSX-compatible effects yet
+if (document.getElementById('effect')) {
+	document.getElementById('effect').disabled = true
+}
+
 const upsertColorStyles = async (data) => {
 	const accessToken = document.getElementById("access-token").value
 	const email = document.getElementById("email").value
@@ -149,6 +154,16 @@ document.querySelectorAll('input[name="format"]').forEach((input) => {
 				{ pluginMessage: { type: "mode", change: input.value } },
 				"*"
 			);
+			const effectInputEl = document.getElementById("effect");
+			if (input.value === 'react-native') {
+				if (effectInputEl.checked) {
+					parent.postMessage({ pluginMessage: { type: "style", id: "effect" } }, "*");
+					effectInputEl.checked = false
+				}
+				effectInputEl.disabled = true
+			} else {
+				effectInputEl.disabled = false
+			}
 		}
 	});
 });
