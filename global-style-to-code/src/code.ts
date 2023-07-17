@@ -55,6 +55,11 @@ if (figma.editorType === "figma") {
 			case "cancel":
 				figma.closePlugin();
 				break;
+			case "notify": 
+				figma.notify(msg.data, {
+					error: msg.error
+				});
+				break;
 			default:
 				console.log("Received message: ", typeof msg, msg)
 		}

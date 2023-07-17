@@ -1,5 +1,7 @@
 import { selectMenu, disclosure } from 'figma-plugin-ds';
 
+const isSuccessfulHTTPResponse = (status) => (status / 100) === 2 || (status / 100) === 3
+
 disclosure.init()
 selectMenu.init()
 
@@ -36,11 +38,11 @@ const upsertColorStyles = async (data) => {
 	})
 	const createBranchParsed = await createBranchRaw.json()
 
-	
 	if (createBranchRaw.status === 400 && createBranchParsed.message === "Branch already exists") {
-		// TODO: Send alert
-	} else if (createBranchRaw.status !== 200) {
-		// TODO: Send alert
+		parent.postMessage({ pluginMessage: { type: "notify", data: `${createBranchParsed.message}; using existing branch...` } }, "*");
+	} else if (!isSuccessfulHTTPResponse(createBranchRaw.status)) {
+		parent.postMessage({ pluginMessage: { type: "notify", data: createBranchParsed.message ?? "There was an error while creating the branch", error: true } }, "*");
+		return;
 	}
 
 	const requestRaw = await fetch(`https://gitlab.com/api/v4/projects/${projectId}/repository/files/${filename}%2E${fileExtension}?ref=${branchName}`, {
@@ -66,7 +68,10 @@ const upsertColorStyles = async (data) => {
 			})
 		})
 		const createFileRequestParsed = await createFileRequestRaw.json()
-		console.log(createFileRequestParsed)
+		if (!isSuccessfulHTTPResponse(createFileRequestRaw.status)) {
+			parent.postMessage({ pluginMessage: { type: "notify", data: createFileRequestParsed.message ?? "There was an error while creating the file", error: true } }, "*");
+			return;
+		}
 	} else if (requestRaw.status === 200) {
 		const updateFileRequestRaw = await fetch(`https://gitlab.com/api/v4/projects/${projectId}/repository/files/${filename}%2E${fileExtension}`, {
 			method: "PUT",
@@ -83,7 +88,13 @@ const upsertColorStyles = async (data) => {
 			})
 		})
 		const updateFileRequestParsed = await updateFileRequestRaw.json()
-		console.log(updateFileRequestParsed)
+		if (!isSuccessfulHTTPResponse(updateFileRequestRaw.status)) {
+			parent.postMessage({ pluginMessage: { type: "notify", data: updateFileRequestParsed.message ?? "There was an error while updating the file", error: true } }, "*");
+			return;
+		}
+	} else if (!isSuccessfulHTTPResponse(requestRaw.status)) {
+		parent.postMessage({ pluginMessage: { type: "notify", data: requestParsed.message ?? "There was an error while checking if the file already exists", error: true } }, "*");
+		return;
 	}
 
 	// Open MR for that branch
@@ -101,7 +112,13 @@ const upsertColorStyles = async (data) => {
 	})
 	const openMergeRequestParsed = await openMergeRequestRaw.json()
 
-	console.log(openMergeRequestParsed)
+	if (openMergeRequestRaw.status !== 409 && !isSuccessfulHTTPResponse(openMergeRequestRaw.status)) {
+		parent.postMessage({ pluginMessage: { type: "notify", data: openMergeRequestParsed.message ?? "There was an error while opening a merge request", error: true } }, "*");
+		return;
+	} else {
+		parent.postMessage({ pluginMessage: { type: "notify", data: `Merge request '${branchName}' ${createBranchRaw.status === 400 && createBranchParsed.message === "Branch already exists" ? "updated" : "created"} successfully!` } }, "*");
+	}
+
 }
 
 

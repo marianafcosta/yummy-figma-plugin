@@ -116,8 +116,6 @@ let code = '';
     let style: { [key: string]: any } = processTextStyle(textStyle);
     let rnStyle = parseTextStylesForReactNative(style)
 
-    console.log(style, rnStyle)
-
     // TODO: Get the color for the text style. If the document has a string with that text style, use the color of that text node. 
     const originKey = getDepthName(textStyle.name);
     const key = checkDuplicatedName(originKey, codeObj, dupCnt);
@@ -125,7 +123,6 @@ let code = '';
     codeObj[pascalCaseKey] = rnStyle;
   });
 
-  console.log(code)
   code = JSON.stringify(codeObj, null, 2);
 
   return arr.length
