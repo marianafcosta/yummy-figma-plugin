@@ -35,7 +35,6 @@ const upsertColorStyles = async (data) => {
 		})
 	})
 	const createBranchParsed = await createBranchRaw.json()
-	console.log(createBranchParsed)
 
 	
 	if (createBranchRaw.status === 400 && createBranchParsed.message === "Branch already exists") {
@@ -167,10 +166,6 @@ document.querySelectorAll('input[name="format"]').forEach((input) => {
 		}
 	});
 });
-
-document.getElementById("copy").onclick = () => {
-	copyTextToClipboard();
-};
 
 document.getElementById("create-merge-request").onclick = async () => {
 	parent.postMessage({ pluginMessage: { type: "create-merge-request-request" } }, "*");
