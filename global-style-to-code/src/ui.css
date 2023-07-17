@@ -119,3 +119,7 @@ textarea {
   border-radius: 2px;
   padding: 6px;
 }
+
+button.download > a {
+  cursor: default;
+}
