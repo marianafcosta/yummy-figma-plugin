@@ -1,47 +1,17 @@
-# yummy figma plugin 
+# README
 
-![Profile banner - 1](https://user-images.githubusercontent.com/56557862/197390875-1061874e-2a94-48c3-846b-1b2e36cd9f4d.png)
+# Getting started
 
-## <a href="https://www.figma.com/community/plugin/1143791863042221668/global-style-to-code">global style to code</a>
-Global Style To Code enables developers to quickly convert global styles (text, paint, and effect) to code. 
-
-
-### All support styles 
-- text styles
-- paint styles
-- effect styles
-
-
-### Variable Options
-you can convert styles to code in several ways
-
-- Javascript object style
-- CSS class style (only in paint style)
-- CSS variable style
-- SCSS mixin style
-- SCSS variable style(only in paint style) 
-
-
-if you choose to convert paint style, there are options for color expression
-
-- RGBA code (default)
-- HEX code (ex. #EEFF00)
-- HSL code (ex. hsl(240, 100%, 50%))
-
-
-### How to use
-1. turn on this plugin in your figma file
-2. check styles that you want to get
-3. check export options
-4. copy and paste on your code!
-
-### Got questions?
-please contact me :) 
-
-
-
-If you like this plugin, press star button!
-https://github.com/YumYumNyang/yummy-figma-plugin
-
-
+1. Open a Terminal (you can use the Spotligh Search to find it)
+2. Go to directory where you want the plugin to be saved using the `cd` command. For example, if you want to save it in the Documents, you'd write `cd ~/Documents`
+3. Paste the following commands into the terminal. They will download the plugin and start a development server. `git clone git@github.com:marianafcosta/yummy-figma-plugin.git; git -C yummy-figma-plugin pull --force; npm install --prefix yummy-figma-plugin/global-style-to-code && npm run start --prefix yummy-figma-plugin/global-style-to-code`
+4. Leave the Terminal window open!
+5. Open the Figma Desktop app
+6. Open any design file
+7. If you're opening the plugin for the first time, go to Plugins > Development > Import plugin from manifest
+8. This will open a Finder window; go to the folder you downloaded a few steps ago and select the `manifest.json` file in the `yummy-figma-plugin/global-style-to-code` sub-directory
+9. The plugin should now be running
+10. Once imported, subsequent runs of the plugin can be started by going to Plugins > Development > global-style-to-code
+11. When you're finished testing, go to the Terminal window and press `^C`
+12. You can close the Terminal window
 
