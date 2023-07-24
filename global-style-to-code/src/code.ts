@@ -35,19 +35,19 @@ if (figma.editorType === "figma") {
 			case "style":
 				const styleId = msg.id as Option;
 				stylings[styleId].changeShow();
-				figma.ui.postMessage({code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
+				figma.ui.postMessage({type: "update-code", code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
 				break;
 			case "mode":
 				const change = msg.change;
 				stylings["text"].changeMode(change);
 				stylings["paint"].changeMode(change);
 				stylings["effect"].changeMode(change);
-				figma.ui.postMessage({code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
+				figma.ui.postMessage({type: "update-code", code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
 				break;
 			case "paint-option":
 				const option = msg.id as PaintOption;
 				stylings["paint"].changePaintOption(option);
-				figma.ui.postMessage({code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
+				figma.ui.postMessage({type: "update-code", code: getCodeFromStylings(stylings), downloadableCode: getDownloadableCodeFromStylings(stylings) });
 				break;
 			case "create-merge-request-request":
 				figma.ui.postMessage({type: "create-merge-request-response", data: getDownloadableCodeFromStylings(stylings)})

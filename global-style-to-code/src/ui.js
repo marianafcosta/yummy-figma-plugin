@@ -127,10 +127,9 @@ onmessage = (event) => {
 		upsertColorStyles(event.data.pluginMessage.data);
 	}
 
-	if (event.data.pluginMessage.code) {
+	// TODO: The code is not unset when you uncheck the only checked box because, at that point, the code is a falsy value
+	if (event.data.pluginMessage.type === "update-code") {
 		document.getElementById("code").value = event.data.pluginMessage.code;
-	}
-	if (event.data.pluginMessage.downloadableCode) {
 		// TODO: Instead of updating the link everytime we get a message, we should only update it when the user presses the download button
 		const downloadLink = document.getElementById("download-link");
 		const file = new Blob([event.data.pluginMessage.downloadableCode], {type: "text/plain"});
