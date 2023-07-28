@@ -91,7 +91,7 @@ export function parsePaintStyle(
     code = parsePaintStyleForDownload(arr, option)
   }
   return arr.length
-    ? `//paint style \n ${code}\n`
+    ? `// Colors\n${code}\n`
     : `//no assigned global paint code\n`; // space 2, replacer null
 }
 
@@ -128,10 +128,10 @@ export function parsePaintStyleForDownload(
     if (typeof codeObj[colorKey] !== 'string') { // Mixed colors are not included
       continue;
     }
-    codeToEnum = `${codeToEnum}${codeToEnum.length === 0 ? '' : ','}${colorKey.toLocaleUpperCase().replace('-', '_')}="${codeObj[colorKey]}"`
+    codeToEnum = `${codeToEnum}${codeToEnum.length === 0 ? '' : '\n'}  ${colorKey.toLocaleUpperCase().replace('-', '_')}="${codeObj[colorKey]}",`
   }
 
   return arr.length
-    ? `export enum Colors {${codeToEnum}}\n`
+    ? `export enum Colors {\n${codeToEnum}\n}\n`
     : '';
 }

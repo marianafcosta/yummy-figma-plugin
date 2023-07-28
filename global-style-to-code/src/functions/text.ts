@@ -91,8 +91,8 @@ export function parseTextStyle(arr: TextStyle[], mode: string) {
   }
 
   return arr.length
-    ? `//text style \n ${code}\n`
-    : `//no assigned global text code\n`;
+    ? `// Typography\n${code}\n`
+    : `// no assigned global text code\n`;
 }
 
 function parseTextStylesForReactNative(style: { [key: string]: any }) {
@@ -126,6 +126,8 @@ let code = '';
   code = JSON.stringify(codeObj, null, 2);
 
   return arr.length
-    ? `export const textStyles = StyleSheet.create(\n${code}\n)\n`
+  // Remove the opening bracket and newline from the stringified JSON object
+  // to allow for the opening bracket to be on the same line as the opening parenthesis
+    ? `export const textStyles = StyleSheet.create({\n${code.slice(2)})\n`
     : '';
 }

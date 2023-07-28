@@ -18,7 +18,7 @@ function getDownloadableCodeFromStylings(stylings: Stylings) {
 			acc += `${styling.downloadableCode}`;
 		}
 		return acc;
-	}, `import { StyleSheet } from 'react-native';\n`);
+	}, `import { StyleSheet } from 'react-native';\n\n`);
 }
 
 if (figma.editorType === "figma") {
