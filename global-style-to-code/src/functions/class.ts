@@ -11,7 +11,7 @@ export class Styling {
 	constructor() {
 		this.code = "";
 		this.downloadableCode = "";
-		this.mode = "object";
+		this.mode = "react-native";
 		this.show = false;
 	}
 	getStyle() {}
